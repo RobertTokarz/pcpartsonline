@@ -1,0 +1,45 @@
+<div>
+<h1>Our special offers:<% provide(:title, "Home") %></h1>
+  <table >
+    <% @items.each do |item| %>
+      <tr>
+        <td>
+          <div class="image">
+            <%= link_to image_tag(item.image_url, :style => "height:100px"), item %>
+          </div>
+        </td>
+        <td>
+          <div class="title">
+            <%= link_to item.title, item %>    
+          </div>
+          <div class="description">
+            <%= item.description %>    
+          </div>
+          <div class="price">
+            <p>Price: <%= number_to_currency(item.price, :unit => "€") %> </p> 
+            <% if item.promo_Price != "" %>
+              <p>Special price: <%= number_to_currency(item.promo_Price, :unit => "€") %> </p> 
+            <% end %>
+          </div>
+          <% if item.promo_Price != nil %>
+          <div class="price">
+             <p><strong style="color:red">Special price: <%= number_to_currency(item.promo_Price, :unit => '€') %></strong></p>
+          </div>
+          <% end %>
+          <div class="links">
+            <% if current_user.try(:admin?) %>
+              <%= link_to 'Edit', edit_item_path(item) %>
+              <%= link_to 'Destroy', item, method: :delete, data: { confirm: 'Are you sure?' } %>
+            <%else%>
+              <a href="/cart/<%= item.id %>">Add to Cart</a>
+            <%end%>
+          </div>
+        </td>
+      </tr>
+    <% end %>
+</table>
+</div>
+
+
+
+</div>

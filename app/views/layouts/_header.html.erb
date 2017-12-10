@@ -1,0 +1,26 @@
+
+   
+        <div><h2 id="logo">PC Parts Online</h2></div>
+       
+       <div><%= link_to image_tag("cart.png", :style => "height:80px; float:right; padding: 5px" ),   cart_path %></div>
+        <div id="topmenu">
+            <p>
+              <ul class="headermenu">
+                <li class="liheadermenu"><%= link_to "Home", root_path %></li>
+                <li class="liheadermenu"><%= link_to "Products", items_path %></li>
+                <li class="liheadermenu"><%= link_to "Help", help_path %></li>
+                <li class="liheadermenu"><%= link_to "About", about_path %></li>
+              </ul>
+          </p>
+        </div>
+
+        <div class="search">
+            <%= form_tag("/search" , :method => "post") do %>
+            <%= label_tag("Search for:") %>
+            <%= text_field_tag(:q) %>
+            <%= submit_tag("Search") %>
+            <% end %>
+        </div>
+
+ 
+

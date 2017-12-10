@@ -1,0 +1,62 @@
+<% provide(:title, "Item") %>
+
+
+  <div class="image">
+          <%= link_to image_tag(@item.image_url, :style => "height:200px"), @item %>
+  </div>
+  
+  <%= @item.image_url %>
+</p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @item.title %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @item.description %>
+</p>
+
+<p>
+  <strong>Price:</strong>
+  <%= number_to_currency(@item.price, :unit => '€') %>
+</p>
+
+<% if @item.promo_Price != nil %>
+  <p>
+    <strong style="color:red">Promo price:</strong>
+    <%= number_to_currency(@item.promo_Price, :unit => '€') %>
+  </p>
+<% end %>
+
+<p>
+  <strong>Category:</strong>
+  <%= @item.category %>
+</p>
+
+<p>
+  <strong>Brand:</strong>
+  <%= @item.brand %>
+</p>
+
+
+
+<p>
+  <strong>Socket type:</strong>
+  <%= @item.socket_Type %>
+</p>
+
+
+<p>
+  <strong>Memory type:</strong>
+  <%= @item.memory_Type %>
+</p>
+<% if current_user.try(:admin?) %>
+  <%= link_to 'Edit', edit_item_path(@item) %> |
+  <%= link_to 'Back', items_path %>
+<% else %>
+  <a href="/cart/<%= @item.id %>">Add to Cart</a><br>
+<% end %>
+
+

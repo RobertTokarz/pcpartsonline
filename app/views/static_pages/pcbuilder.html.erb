@@ -1,0 +1,39 @@
+<div class="products">
+
+<% provide(:title, "PC Builder") %>
+<h1>Products:</h1>
+
+<table >
+    <% @items.each do |item| %>
+      <tr>
+        <td>
+          <div class="image">
+            <%= link_to image_tag(item.image_url, :style => "height:100px"), item %>
+          </div>
+        </td>
+        <td>
+          <div class="title">
+            <%= link_to item.title, item %>    
+          </div>
+          <div class="description">
+            <%= item.description %>    
+          </div>
+          <div class="price">
+            <%= number_to_currency(item.price, :unit => "€") %>    
+          </div>
+          <div class="links">
+            <% @config["#{item.category}"]["id"] = item.id 
+               @config["#{item.category}"]["socket_type"] = item.socket_Type 
+               @config["#{item.category}"]["memory_type"] = item.memory_Type %>
+            <% config = JSON.dump(@config) %>
+              <a href="<%= config %>">Add to Build</a>
+    
+          </div>
+        </td>
+      </tr>
+    <% end %>
+</table>
+
+<br>
+ 
+</div>

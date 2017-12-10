@@ -1,0 +1,110 @@
+<% provide(:title, "Order") %>
+<h2>Thank You</h2>
+<p>You have just placed an order</p>
+<table>
+  <thead>
+    <tr>
+      <th>Order Reference</th>
+    
+    </tr>
+  </thead>
+
+  <tbody>
+      
+    <% @orders.limit(1).order(id: :desc).each do |order| %> 
+    <tr>
+        
+       <td>Order reference for the order you just placed <%= order.id %></td>
+       
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<table>
+  <thead>
+    <tr>
+      
+      <th>Item(s)</th>
+      
+    </tr>
+  </thead>
+
+  <tbody>
+      <% @total = 0 %>
+      <% @discount = 0 %>
+    <% @orderitems.each do |id,quantity| %>
+      <tr>
+        <% item = Orderitem.find_by_id(id) %>
+        <% promoItem = Item.find_by_id(item.item_id) %>
+        <% pp promoItem %>
+        <td><%= item.title %></td>
+        <td><%= item.quantity %></td>
+        <% if promoItem.promo_Price != nil %>
+         <td><%=number_to_currency(promoItem.promo_Price, :unit => "€")%></td> 
+         <td><%= number_to_currency(item.quantity * promoItem.promo_Price, :unit => "€") %></td>
+         <% linetotal = (item.quantity * promoItem.promo_Price)%> 
+         <% @discount = @discount + (item.price-promoItem.promo_Price) %>
+        <% else %>
+         <td><%=number_to_currency(item.price, :unit => "€")%></td> 
+         <td><%= number_to_currency(item.quantity * item.price, :unit => "€") %></td>
+         <% linetotal = (item.quantity * item.price)%> 
+        <% end %>
+       </tr>
+      <% @total += linetotal %>
+     
+      </tr>
+    <% end %>
+ 
+  </tbody>
+  
+  
+  <table>
+  <thead>
+    <tr>
+      <th>Order Reference</th>
+    
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr>
+        
+      <td>Order Total: &euro; <%= @total %></td>
+
+      </tr>
+      
+      <tr>
+        <% if @total > 500 %>
+          <% shipping = 0 %>
+          <td style ="color:red">Free Shipping</td>        
+       <% else %>
+         <% shipping = 15 %>
+         <% @total = shipping + @total%>        
+        <td>Shipping &euro; 15.00</td>         
+       
+       <% end %>
+
+     </tr>
+     <% if @discount > 0  %>
+       <tr>
+         <td style = "color:red">Discount: <%=number_to_currency(@discount, :unit => "€") %></td>
+       </tr>
+     
+     <% end %>
+      <tr>
+          <td>You Pay &euro; <%= @total %>
+      </td>
+      </tr>
+    <tr>
+          <td><h2>  <a href="/paid">Pay Now</a></h2></td>
+      </tr>
+
+       
+
+   
+  </tbody>
+</table>
+  
+
+</table>
